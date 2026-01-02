@@ -1,0 +1,12 @@
+stages:
+  train:
+    cmd: python train.py
+    deps:
+      - train.py
+      - data/life_expectancy.csv
+    params:
+      - model.n_estimators
+      - model.max_depth
+    outs:
+      - artifacts
+

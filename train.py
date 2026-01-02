@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data-path", default="life_expectancy.csv")
+    parser.add_argument("--data-path", default="data/life_expectancy.csv")
     parser.add_argument("--experiment", default="life-exp-prod")
     parser.add_argument("--run-name", default="rf-baseline")
 
