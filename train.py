@@ -1,7 +1,8 @@
 import os
 import json
-import argparse
 import logging
+import argparse
+import yaml
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -25,6 +26,12 @@ logger = logging.getLogger(__name__)
 # ---------------- Data ----------------
 def load_data(path):
     return pd.read_csv(path)
+
+
+# ---------------- Params ----------------
+def load_params(path="params.yaml"):
+    with open(path) as f:
+        return yaml.safe_load(f)
 
 
 # ---------------- Pipeline ----------------
@@ -60,12 +67,20 @@ def build_pipeline(n_estimators, max_depth, seed):
 # ---------------- Main ----------------
 def main(args):
 
+    params = load_params()
+
+    model_params = params["model"]
+    n_estimators = model_params["n_estimators"]
+    max_depth = model_params["max_depth"]
+    seed = model_params["seed"]
+
     mlflow.set_tracking_uri("http://localhost:5000")
     mlflow.set_experiment(args.experiment)
 
     with mlflow.start_run(run_name=args.run_name):
 
-        mlflow.log_params(vars(args))
+        # Log params explicitly (best practice)
+        mlflow.log_params(model_params)
         mlflow.set_tag("problem", "life_expectancy_prediction")
         mlflow.set_tag("model_type", "RandomForest")
 
@@ -74,13 +89,13 @@ def main(args):
         y = df["life_expectancy"]
 
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=args.seed
+            X, y, test_size=0.2, random_state=seed
         )
 
         pipeline = build_pipeline(
-            args.n_estimators,
-            args.max_depth,
-            args.seed
+            n_estimators,
+            max_depth,
+            seed
         )
 
         pipeline.fit(X_train, y_train)
@@ -117,10 +132,6 @@ if __name__ == "__main__":
     parser.add_argument("--data-path", default="data/life_expectancy.csv")
     parser.add_argument("--experiment", default="life-exp-prod")
     parser.add_argument("--run-name", default="rf-baseline")
-
-    parser.add_argument("--n-estimators", type=int, default=200)
-    parser.add_argument("--max-depth", type=int, default=15)
-    parser.add_argument("--seed", type=int, default=42)
 
     args = parser.parse_args()
     main(args)
