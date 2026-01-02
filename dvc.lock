@@ -1,0 +1,24 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python train.py
+    deps:
+    - path: data/life_expectancy.csv
+      hash: md5
+      md5: b0e4b514abdfe2538110e81c6403c23b
+      size: 459833
+    - path: train.py
+      hash: md5
+      md5: eaf2b090ef302c8f9cd147ce0d2c7a82
+      size: 3577
+    params:
+      params.yaml:
+        model.max_depth: 10
+        model.n_estimators: 200
+        model.seed: 24
+    outs:
+    - path: artifacts
+      hash: md5
+      md5: bcaf50c0e40b419031d8f5673e5a18d5.dir
+      size: 63
+      nfiles: 1

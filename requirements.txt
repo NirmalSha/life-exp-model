@@ -1,0 +1,7 @@
+mlflow
+dvc 
+dvc[s3] 
+scikit-learn 
+pandas 
+streamlit 
+pyyaml
