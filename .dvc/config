@@ -1,2 +1,5 @@
 [core]
     autostage = false
+    remote = s3remote
+['remote "s3remote"']
+    url = s3://practice-bucket-test-1
