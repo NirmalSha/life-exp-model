@@ -1,4 +1,4 @@
 model:
-  n_estimators: 200
-  max_depth: 10
+  n_estimators: 250
+  max_depth: 7
   seed: 24

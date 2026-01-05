@@ -13,12 +13,12 @@ stages:
       size: 3577
     params:
       params.yaml:
-        model.max_depth: 10
-        model.n_estimators: 200
+        model.max_depth: 7
+        model.n_estimators: 250
         model.seed: 24
     outs:
     - path: artifacts
       hash: md5
-      md5: bcaf50c0e40b419031d8f5673e5a18d5.dir
+      md5: 76baa91ee9a27706793aa91ec4132c0c.dir
       size: 63
       nfiles: 1
